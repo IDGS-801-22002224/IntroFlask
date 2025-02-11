@@ -1,36 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Hello MUNDO</h1>
-    <table>
-        <thead class="table-striped">
-            <thr>NOMBRE</thr>
-            <thr>GRUPO</thr>
-            <thr>MATRICULA</thr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Carlos</td>
-                <td>5IM8</td>
-                <td>181001</td>
-            </tr>
-            <tr>
-                <td>Carlos</td>
-                <td>5IM8</td>
-                <td>181001</td>
-            </tr>
-            <tr>
-                <td>Carlos</td>
-                <td>5IM8</td>
-                <td>181001</td>
-            </tr>
-    </table>
-</body>
-</html>
+{% extends "layout.html" %}
+{% block container %}
+
+<h1>{{titulo}}</h1>
+            {% for i in lista %}
+                <h2>{{i}}</h2>
+            {% endfor %}
+
+            
+{% endblock %}
+
+
+
+            

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <title>Cinépolis</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Cinépolis</h1>
+        <div class="top-section">
+            <div class="section">
+                <h3>Entradas</h3>
+                <form method="POST">
+                    <label>Nombre:</label>
+                    <input type="text" name="nombre" class="input-field"><br>
+                    <label>Cantidad Compradores:</label>
+                    <input type="number" name="cantidadCompradores" class="input-field"><br>
+                    <label>Tarjeta Cinéco:</label>
+                    <input type="radio" name="tarjetaCineco" value="si"> Sí
+                    <input type="radio" name="tarjetaCineco" value="no"> No<br>
+                    <label>Cantidad De Boletos:</label>
+                    <input type="number" name="cantidadBoletas" class="input-field"><br>
+            </div>
+
+            <div class="section">
+                <h3>Salidas</h3>
+                <label>Valor a Pagar:</label>
+                <input type="text" name="valorPagar" class="input-field" value="{{ valor_pagar if valor_pagar else '' }}" readonly><br>
+            </div>
+        </div>
+
+        <div class="middle-section">
+            <h3>Acciones</h3>
+            <button type="submit">Procesar</button>
+            <button>Salir</button>
+        </div>
+        </form>
+
+        {% if resultado %}
+        <div class="resultado">
+            <h3>Resultado</h3>
+            <div>{{ resultado | safe }}</div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app=Flask(__name__)
 
@@ -56,7 +56,61 @@ def operas():
 
     '''
 
+@app.route("/OperasBas", methods=["GET", "POST"])
+def Operaciones():
+    resultado = None  #variable resultado
 
+    if request.method == "POST":
+        n1 = int(request.form.get("n1"))
+        n2 = int(request.form.get("n2"))
+        operacion = request.form.get("operacion")
+
+        if operacion == "suma":
+            resultado = f"El resultado de la suma es: {n1 + n2}"
+        elif operacion == "multiplicacion":
+            resultado = f"El resultado de la multiplicación es: {n1 * n2}"
+        elif operacion == "division":
+            if n2 == 0:
+                resultado = "Error: División por cero"
+            else:
+                resultado = f"El resultado de la división es: {n1 / n2}"
+        elif operacion == "resta":
+            resultado = f"El resultado de la resta es: {n1 - n2}"
+        else:
+            resultado = "Operación no válida"
+
+    # renderizo la plantilla con el resultado (si existe)
+    return render_template("OperasBas.html", resultado=resultado)
+    
+
+
+
+@app.route("/Cinepolis", methods=["GET", "POST"])
+def Cinepolis():
+    resultado = None  #variable donde almaceno el resultado
+    valor_pagar = 0 
+
+    if request.method == "POST":
+        nombre = request.form.get("nombre")
+        cantidad_compradores = int(request.form.get("cantidadCompradores"))
+        tarjeta_cineco = request.form.get("tarjetaCineco")
+        cantidad_boletas = int(request.form.get("cantidadBoletas"))
+
+        #precio del boletito
+        precio_boleto = 12.0
+
+        #valor total sin descuento
+        valor_total = cantidad_boletas * precio_boleto
+
+        if tarjeta_cineco == "si":
+            descuento = 0.1 
+            valor_total *= (1 - descuento)
+
+        
+        valor_pagar = valor_total
+
+    return render_template("Cinepolis.html", valor_pagar=valor_pagar)
+    
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)

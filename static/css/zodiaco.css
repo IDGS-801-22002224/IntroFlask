@@ -1,0 +1,81 @@
+body {
+    display: flex;
+    justify-content: flex-start; 
+    align-items: flex-start;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding-left: 20px; 
+}
+
+.form-container {
+    background-color: #ffffff;
+    padding: 100px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    margin-left: 100px; 
+}
+
+.resultado-container {
+    background-color: #ffffff;
+    padding: 200px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    margin-left: 250px;
+}
+
+.form-container h1, .resultado-container h1 {
+    margin-bottom: 20px;
+}
+
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-container input[type="text"],
+.form-container input[type="submit"],
+.form-container input[type="number"],
+.form-container input[type="month"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container input[type="radio"] {
+    margin-right: 5px;
+}
+
+.form-container input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.form-container div {
+    margin-bottom: 15px;
+}
+
+.imagen-signo {
+    width: 100px;
+    height: auto;
+    margin-top: 10px;
+}
+
+
+.resultado-texto {
+    font-size: 30px;
+    font-weight: bold; 
+}

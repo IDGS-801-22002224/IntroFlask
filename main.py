@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from datetime import datetime
 
 app=Flask(__name__)
 
@@ -110,6 +111,53 @@ def Cinepolis():
         valor_pagar = valor_total
 
     return render_template("Cinepolis.html", valor_pagar=valor_pagar)
+
+
+def calcular_signo_chino(año):
+    signos = [
+        {"nombre": "Rata", "imagen": "img/rata.png"},
+        {"nombre": "Buey", "imagen": "img/buey.png"},
+        {"nombre": "Tigre", "imagen": "img/tigre.png"},
+        {"nombre": "Conejo", "imagen": "img/conejo.png"},
+        {"nombre": "Dragón", "imagen": "img/dragon.png"},
+        {"nombre": "Serpiente", "imagen": "img/serpiente.png"},
+        {"nombre": "Caballo", "imagen": "img/caballo.png"},
+        {"nombre": "Cabra", "imagen": "img/cabra.png"},
+        {"nombre": "Mono", "imagen": "img/mono.png"},
+        {"nombre": "Gallo", "imagen": "img/gallo.png"},
+        {"nombre": "Perro", "imagen": "img/perro.png"},
+        {"nombre": "Cerdo", "imagen": "img/cerdo.png"}
+    ]
+    inicio_ciclo = 1924  # ciclo del zodiaco chino comienza en 1924 (Rata)
+    indice = (año - inicio_ciclo) % 12
+    return signos[indice]
+
+def calcular_edad(dia, mes, año):
+    hoy = datetime.now()
+    edad = hoy.year - año
+
+    if (mes > hoy.month) or (mes == hoy.month and dia > hoy.day):
+        edad -= 1 
+
+    return edad
+
+@app.route("/ZodiacoChino", methods=["GET", "POST"])
+def ZodiacoChino():
+    resultado = None
+    imagen_signo = None
+    if request.method == "POST":
+        nombre = request.form.get("nombre")
+        apaterno = request.form.get("apatismo")
+        amaterno = request.form.get("amatomo")
+        dia = int(request.form.get("dia"))
+        mes = int(request.form.get("mes"))
+        año = int(request.form.get("año"))
+        edad = calcular_edad(dia, mes, año)
+        signo_chino = calcular_signo_chino(año)
+        resultado = f"Hola {nombre} {apaterno} {amaterno},<br>tienes {edad} años.<br>Tu signo zodiacal es: {signo_chino['nombre']}."
+        imagen_signo = signo_chino["imagen"]  # Ruta de la imagen del signo
+    return render_template("ZodiacoChino.html", resultado=resultado, imagen_signo=imagen_signo)
+
     
 
 if __name__ == "__main__":

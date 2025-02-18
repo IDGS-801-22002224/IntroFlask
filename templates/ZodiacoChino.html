@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/zodiaco.css') }}">
+    <title>Datos Personales</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Datos Personales</h1>
+        <form method="POST" action="/ZodiacoChino">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="apatismo">Apaterno:</label>
+            <input type="text" id="apatismo" name="apatismo" required>
+
+            <label for="amatomo">Amaterno:</label>
+            <input type="text" id="amatomo" name="amatomo" required>
+
+            <label for="fechaNacimiento">Fecha de nacimiento:</label>
+            <div>
+                <input type="number" id="dia" name="dia" placeholder="Día" style="width: 30%;" required>
+                <input type="number" id="mes" name="mes" placeholder="Mes" style="width: 30%;" required>
+                <input type="number" id="año" name="año" placeholder="Año" style="width: 30%;" required>
+            </div><br>
+
+            <label for="sexto">Sexo:</label>
+            <div><br>
+                <label for="masculino">Masculino</label>
+                <input type="radio" id="masculino" name="genero" value="Masculino" required>
+                <label for="femenino">Femenino</label>
+                <input type="radio" id="femenino" name="genero" value="Femenino" required>
+            </div><br>
+
+            <input type="submit" value="IMPRIMIR">
+        </form>
+    </div>
+
+    <div class="resultado-container">
+        <h1>Resultado</h1>
+        {% if resultado %}
+            <p class="resultado-texto">{{ resultado | safe }}</p> 
+            {% if imagen_signo %}
+                <img src="{{ url_for('static', filename=imagen_signo) }}" alt="Signo Zodiacal" class="imagen-signo">
+            {% endif %}
+        {% else %}
+            <p>Ingresa tus datos para ver el resultado.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

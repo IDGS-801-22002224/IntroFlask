@@ -1,13 +1,37 @@
 from flask import Flask, render_template, request
 from datetime import datetime
 import forms
+from flask_wtf.csrf import CSRFProtect
+from flask import flash
+from flask import g
+
 
 app=Flask(__name__)
+app.secret_key ="secret key"
+csrf = CSRFProtect()
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html"), 404
+
+@app.before_request
+def before_request():
+    g.user = "PEPE"    
+    print("before1")
+
+@app.after_request
+def after_request(response):    
+    print("after3")
+    return response
 
 @app.route('/')
 def index():
+    nom="None"
     titulo="IDGS801"
     lista=["Juan","Pedro","Maria","Jose"]
+    nom=g.user
+    print("index 2 {}".format(g.user))
     return render_template("index.html",titulo=titulo,lista=lista)
 
 @app.route('/ejemplo1')
@@ -169,15 +193,19 @@ def Alumnos():
     email=''
     
     alumno_clas = forms.UserForm(request.form)
-    if request.method == "POST":
+    if request.method == "POST" and alumno_clas.validate():
         mat = alumno_clas.matricula.data
         nom = alumno_clas.nombre.data
         ape = alumno_clas.apellido.data
         email = alumno_clas.correo.data
+
+        mensaje='BIENVENIDO{}'.format(nom)
+        flash(mensaje)
 
     return render_template("Alumnos.html", form=alumno_clas, mat=mat, nom=nom, ape=ape, email=email)
 
 
 
 if __name__ == "__main__":
+    csrf.init_app(app)
     app.run(debug=True, port=5000)

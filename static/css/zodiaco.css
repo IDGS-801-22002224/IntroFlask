@@ -16,7 +16,7 @@ body {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
     text-align: center;
-    margin-left: 100px; 
+    margin-left: -100px; 
 }
 
 .resultado-container {
@@ -25,7 +25,8 @@ body {
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 300px;
-    margin-left: 250px;
+    margin-left: 600px;
+    margin-top: -1119px;
 }
 
 .form-container h1, .resultado-container h1 {
@@ -38,30 +39,42 @@ body {
     font-weight: bold;
 }
 
+/* Estilos para los campos de texto y número */
 .form-container input[type="text"],
-.form-container input[type="submit"],
-.form-container input[type="number"],
-.form-container input[type="month"] {
-    width: 100%;
+.form-container input[type="number"] {
+    width: 100%; /* Movido desde inline para nombre, apaterno, amaterno */
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
 
-.form-container input[type="radio"] {
-    margin-right: 5px;
+/* Estilos específicos para los campos de fecha */
+.form-container .fecha-nacimiento input[type="number"] {
+    width: 30%; /* Movido desde inline para dia, mes, año */
+    display: inline-block; /* Para que se muestren en línea */
+    margin-right: 5px; /* Espacio entre los campos */
 }
 
+/* Estilos para el botón de submit */
 .form-container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 5px;
     background-color: #4CAF50;
     color: white;
-    border: none;
     cursor: pointer;
 }
 
 .form-container input[type="submit"]:hover {
     background-color: #45a049;
+}
+
+/* Estilos para los radio buttons */
+.form-container input[type="radio"] {
+    margin-right: 5px;
 }
 
 .form-container div {
@@ -74,8 +87,6 @@ body {
     margin-top: 10px;
 }
 
-
 .resultado-texto {
-    font-size: 30px;
     font-weight: bold; 
 }

@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from datetime import datetime
 import forms
+from forms import ZodiacoForm
 from flask_wtf.csrf import CSRFProtect
 from flask import flash
 from flask import g
@@ -160,29 +161,36 @@ def calcular_signo_chino(año):
 def calcular_edad(dia, mes, año):
     hoy = datetime.now()
     edad = hoy.year - año
-
     if (mes > hoy.month) or (mes == hoy.month and dia > hoy.day):
         edad -= 1 
-
     return edad
 
 @app.route("/ZodiacoChino", methods=["GET", "POST"])
 def ZodiacoChino():
     resultado = None
     imagen_signo = None
-    if request.method == "POST":
-        nombre = request.form.get("nombre")
-        apaterno = request.form.get("apatismo")
-        amaterno = request.form.get("amatomo")
-        dia = int(request.form.get("dia"))
-        mes = int(request.form.get("mes"))
-        año = int(request.form.get("año"))
+    zodiaco_form = ZodiacoForm(request.form)  
+    
+    if request.method == "POST" and zodiaco_form.validate():
+        nombre = zodiaco_form.nombre.data
+        apaterno = zodiaco_form.apaterno.data
+        amaterno = zodiaco_form.amaterno.data
+        dia = zodiaco_form.dia.data
+        mes = zodiaco_form.mes.data
+        año = zodiaco_form.año.data
+        
         edad = calcular_edad(dia, mes, año)
         signo_chino = calcular_signo_chino(año)
+        
         resultado = f"Hola {nombre} {apaterno} {amaterno},<br>tienes {edad} años.<br>Tu signo zodiacal es: {signo_chino['nombre']}."
-        imagen_signo = signo_chino["imagen"]  # Ruta de la imagen del signo
-    return render_template("ZodiacoChino.html", resultado=resultado, imagen_signo=imagen_signo)
+        imagen_signo = signo_chino["imagen"]
+        
+        mensaje = f"¡Bienvenido {nombre}! Tu signo zodiacal chino ha sido calculado."
+        flash(mensaje)
 
+        return render_template("ZodiacoChino.html", form=zodiaco_form, nombre=nombre, apaterno=apaterno, amaterno=amaterno, dia=dia, mes=mes, año=año, resultado=resultado, imagen_signo=imagen_signo)
+    
+    return render_template("ZodiacoChino.html", form=zodiaco_form)
     
 
 @app.route("/Alumnos", methods=["GET", "POST"])

@@ -1,18 +1,36 @@
-{%macro datos(name, placeholder, type="text") %}
-<label for="name">{{name}}:</label>
-<p><input name="{{name}}" type="{{type}}" placeholder="{{placeholder}}"></p>
-{%endmacro%}
+{% macro datos(name, placeholder, type="text", kwargs={}) %}
+    <label for="{{ name.id }}">{{ name.label.text }}:</label>
+    <p>
+        <input name="{{ name.name }}" 
+               type="{{ type }}" 
+               placeholder="{{ placeholder }}"
+               {% for key, value in kwargs.items() %} {{ key }}="{{ value }}"{% endfor %}>
+    </p>
+{% endmacro %}
 
-{%macro camposNuevos(field) %}
-<td>{{field.label}}</td>
-<dd>{{field(**kwargs)|safe}}</dd>
+{% macro camposNuevos(field, kwargs={}) %}
+    <div class="field-container">
+        {% if field.type == "RadioField" %}
+            <label>{{ field.label.text }}:</label>
+            <div class="radio-options">
+                {% for subfield in field %}
+                    <label class="radio-label">
+                        {{ subfield }}
+                        {{ subfield.label.text }}
+                    </label>
+                {% endfor %}
+            </div>
+        {% else %}
+            <label for="{{ field.id }}">{{ field.label.text }}:</label>
+            {{ field(**kwargs)|safe }}
+        {% endif %}
 
-{%if field.erors%}
-<ul>
-    {%for error in field.errors%}
-    <li style="color: red;">{{error}}</li>
-    {%endfor%}
-</ul>
-{%endif%}
-
-{%endmacro%}
+        {% if field.errors %}
+            <ul class="errors">
+                {% for error in field.errors %}
+                    <li style="color: red;">{{ error }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endmacro %}

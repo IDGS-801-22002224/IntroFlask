@@ -1,3 +1,8 @@
+{% extends "layout2.html" %}
+{% block content %}
+
+{% import "_macros.html" as macro %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -9,31 +14,22 @@
 <body>
     <div class="form-container">
         <h1>Datos Personales</h1>
-        <form method="POST" action="/ZodiacoChino">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required>
+        <form method="POST" action="/ZodiacoChino" novalidate>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
-            <label for="apatismo">Apaterno:</label>
-            <input type="text" id="apatismo" name="apatismo" required>
+            {{ macro.camposNuevos(form.nombre, kwargs={"placeholder": "Nombre"}) }}
+            {{ macro.camposNuevos(form.apaterno, kwargs={"placeholder": "Apellido Paterno"}) }}
+            {{ macro.camposNuevos(form.amaterno, kwargs={"placeholder": "Apellido Materno"}) }}
 
-            <label for="amatomo">Amaterno:</label>
-            <input type="text" id="amatomo" name="amatomo" required>
-
-            <label for="fechaNacimiento">Fecha de nacimiento:</label>
-            <div>
-                <input type="number" id="dia" name="dia" placeholder="Día" style="width: 30%;" required>
-                <input type="number" id="mes" name="mes" placeholder="Mes" style="width: 30%;" required>
-                <input type="number" id="año" name="año" placeholder="Año" style="width: 30%;" required>
+            <div class="fecha-nacimiento">
+                <label>Fecha de nacimiento:</label>
+                {{ macro.camposNuevos(form.dia, kwargs={"placeholder": "Día"}) }}
+                {{ macro.camposNuevos(form.mes, kwargs={"placeholder": "Mes"}) }}
+                {{ macro.camposNuevos(form.año, kwargs={"placeholder": "Año"}) }}
             </div><br>
 
-            <label for="sexto">Sexo:</label>
-            <div><br>
-                <label for="masculino">Masculino</label>
-                <input type="radio" id="masculino" name="genero" value="Masculino" required>
-                <label for="femenino">Femenino</label>
-                <input type="radio" id="femenino" name="genero" value="Femenino" required>
-            </div><br>
-
+            {{ macro.camposNuevos(form.genero) }}
+            <br>
             <input type="submit" value="IMPRIMIR">
         </form>
     </div>
@@ -51,3 +47,5 @@
     </div>
 </body>
 </html>
+
+{% endblock %}
